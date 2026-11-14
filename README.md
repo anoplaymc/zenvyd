@@ -4,5 +4,5 @@ https://anoplaymc.github.io/zenvyd/
 https://codeberg.org/meltude/pages
 ## How to clone this code to your folder (via git)
 ```bash
-git clone https://github.com/anoplayc/zenvyd.git
+git clone https://github.com/anoplayc/zenvyd
 ```
