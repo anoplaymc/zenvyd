@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Notes on Wayland: what it is, how it improves on X11, and which compositors or desktop environments to use."
+    />
+    <link rel="icon" type="image/png" href="/img/root/avatar.png" />
+    <title>Wayland</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="preload"
+      href="../fonts/balsamiq-sans-regular-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: var(--text);
+        line-height: 1.2;
+      }
+
+      .page-title {
+        font-size: clamp(1.8rem, 5vw, 2.6rem);
+      }
+
+      .muted strong {
+        color: var(--text);
+      }
+
+      .chip-list li {
+        background: var(--surface-raised);
+        padding: 0.25rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+      }
+
+      .chip-list li a {
+        background: transparent;
+        padding: 0;
+      }
+
+      .hero-img {
+        display: block;
+        width: 64px;
+        max-width: 100%;
+        height: auto;
+        margin: 0 0 0.6rem;
+      }
+
+      .shrug {
+        margin: 1.2rem 0 0;
+        color: var(--accent);
+        font-size: clamp(1.2rem, 4vw, 1.6rem);
+        user-select: none;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="rain" aria-hidden="true"></canvas>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="page-shell">
+      <div class="topbar-wrap">
+        <div class="lang-switcher lang-switcher--plain">
+          <a
+            href="/ru/wayland/"
+            hreflang="ru"
+            lang="ru"
+            aria-label="Switch to Russian"
+            >ru</a
+          >
+        </div>
+      </div>
+
+      <div class="layout">
+        <main class="content">
+          <section class="hero pane" aria-label="What is Wayland">
+            <img
+              class="hero-img"
+              src="../img/assets/wayland.webp"
+              alt="Wayland logo"
+            />
+            <h1 class="page-title">Wayland</h1>
+            <p class="muted">
+              Wayland is a modern communication protocol designed to manage
+              display servers on Unix-like operating systems (such as Linux).
+            </p>
+            <p class="muted">
+              It defines how a compositor&mdash;the program responsible for
+              drawing what you see on screen&mdash;communicates with client
+              applications (like your browser, terminal, or text editor).
+            </p>
+            <p class="muted">
+              It was developed as a lightweight, clean replacement for the
+              legacy X11 (X Window System), which had accumulated decades of
+              complex workaround code.
+            </p>
+            <p class="muted">
+              Wayland fundamentally redesigns how graphics rendering works on
+              desktop Linux, offering several major benefits over older display
+              server protocols:
+            </p>
+          </section>
+
+          <section class="pane-grid" aria-label="Benefits of Wayland">
+            <article class="pane">
+              <h3>
+                1. Superior Performance &amp; Lower Latency, &ldquo;Every Frame
+                is Perfect&rdquo;
+              </h3>
+              <p class="muted">
+                In Wayland, rendering is coordinated so that applications draw
+                directly into buffers, and the compositor renders them without
+                tearing. This virtually eliminates screen tearing and
+                micro-stuttering.
+              </p>
+              <p class="muted">
+                <strong>Streamlined Pipeline:</strong> X11 relied on a separate
+                display server, window manager, and compositing manager
+                communicating back and forth. Wayland combines these roles into
+                a single compositor (such as Hyprland, Sway, or Mutter/GNOME),
+                cutting out redundant IPC (Inter-Process Communication)
+                overhead.
+              </p>
+            </article>
+
+            <article class="pane">
+              <h3>2. Modern Security Model &amp; Sandboxing</h3>
+              <p class="muted">
+                <strong>App Isolation:</strong> Under X11, any running
+                application could easily log keypresses from other windows or
+                capture screen contents without permission.
+              </p>
+              <p class="muted">
+                <strong>Explicit Permissions:</strong> Wayland restricts clients
+                from reading other windows&rsquo; input or buffer memory by
+                default. Actions like screen sharing, global keybindings, or
+                clipboard sharing require explicit protocols/portals (e.g.,
+                xdg-desktop-portal), providing much better isolation for
+                sandboxed environments like Flatpak or Snap.
+              </p>
+            </article>
+
+            <article class="pane">
+              <h3>3. Native Multi-Monitor &amp; Mixed DPI Support</h3>
+              <p class="muted">
+                <strong>Independent Refresh Rates:</strong> On X11, running a
+                144Hz monitor alongside a 60Hz monitor often locked both to the
+                lower refresh rate or caused severe stuttering. Wayland natively
+                handles different refresh rates across multiple screens
+                seamlessly.
+              </p>
+              <p class="muted">
+                <strong>Per-Monitor Scaling:</strong> Wayland excels at handling
+                mixed-density displays (e.g., scaling a 4K laptop display to
+                150% while keeping an external 1080p monitor at 100% without
+                blurry visuals).
+              </p>
+            </article>
+
+            <article class="pane">
+              <h3>4. Cleaner, Maintainable Codebase</h3>
+              <p class="muted">
+                <strong>Simplified Design:</strong> By stripping away legacy
+                rendering extensions, network-transparent graphics primitives,
+                and outdated X11 mechanisms, Wayland&rsquo;s codebase is vastly
+                smaller, safer, and easier for developers to maintain and
+                expand.
+              </p>
+            </article>
+          </section>
+
+          <section class="pane" aria-label="But still">
+            <h2>but still...</h2>
+            <p class="muted">
+              Wayland is still in active development, so some things can still
+              work somewhat horribly. Don&rsquo;t expect all features like
+              network transparency (as X11 does that), but Wayland is a
+              successful attempt at being a modern communication protocol,
+              especially for everyday desktop use cases.
+            </p>
+            <p class="muted">
+              no one is better (X11 vs Wayland) because they have big
+              architecture differences and I can&rsquo;t understand why people
+              argue who is better
+            </p>
+            <p class="shrug">¯\_(ツ)_/¯</p>
+          </section>
+
+          <section class="pane" aria-label="What to use">
+            <h2>so what we should use then?</h2>
+            <p class="muted">i could suggest those WC&rsquo;s or DE&rsquo;s</p>
+            <p class="muted">
+              (WC = Wayland Compositor)<br />
+              (DE = Desktop Environment)
+            </p>
+            <ul class="chip-list">
+              <li>
+                <a
+                  href="https://kde.org/plasma-desktop/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >KDE Plasma</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.gnome.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GNOME</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://hypr.land/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >hyprland</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/niri-wm/niri"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >niri</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://swaywm.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >swaywm</a
+                >
+                (or
+                <a
+                  href="https://github.com/wlrfx/swayfx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >swayfx</a
+                >)
+              </li>
+              <li>
+                <a
+                  href="https://github.com/mangowm/mango"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >mangowm</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/mahkoh/jay"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >jay</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/pinnacle-comp/pinnacle"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >pinnacle</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://codeberg.org/river/river"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >river</a
+                >
+                (or
+                <a
+                  href="https://codeberg.org/river/river-classic"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >river classic</a
+                >)
+              </li>
+              <li>
+                <a
+                  href="https://codeberg.org/shar/neuswc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >neuswc</a
+                >
+                and other Window Compositors on
+                <a
+                  href="https://wayland.fyi/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >wayland.fyi</a
+                >
+              </li>
+            </ul>
+          </section>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <a class="text-link" href="/">&larr; back to the homepage</a>
+      </footer>
+    </div>
+    <script src="../scripts/rain.js" defer></script>
+    <script src="../scripts/progress.js" defer></script>
+  </body>
+</html>

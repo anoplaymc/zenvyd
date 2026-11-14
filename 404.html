@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404: not found</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="preload"
+      href="fonts/balsamiq-sans-regular-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        text-align: center;
+        background: #0a0a0a;
+      }
+      .not-found h1 {
+        margin: 0;
+        font-size: clamp(2rem, 8vw, 4rem);
+      }
+      .not-found p {
+        margin: 0.6rem 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 2.5vw, 1.5rem);
+      }
+      .not-found .home-link {
+        margin-top: 1.8rem;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="not-found">
+      <h1>404: not found</h1>
+      <p>nobody here but us chickens?</p>
+      <p>¯\_(ツ)_/¯</p>
+      <p class="home-link"><a href="/">go home</a></p>
+    </main>
+  </body>
+</html>

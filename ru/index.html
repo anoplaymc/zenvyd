@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Личная страница Zenvyd. Просто пользователь NixOS, учусь на вайбкодера."
+    />
+    <meta name="author" content="Zenvyd" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Zenvyd" />
+    <meta
+      property="og:description"
+      content="Просто пользователь NixOS, учусь на вайбкодера."
+    />
+    <link rel="icon" type="image/png" href="/img/root/avatar.png" />
+    <title>Zenvyd</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="preload"
+      href="/fonts/balsamiq-sans-regular-cyrillic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="canonical" href="/ru/" />
+    <link rel="alternate" hreflang="en" href="/" />
+    <link rel="alternate" hreflang="ru" href="/ru/" />
+    <link rel="alternate" hreflang="x-default" href="/" />
+  </head>
+  <body>
+    <canvas id="rain" aria-hidden="true"></canvas>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="page-shell">
+      <div class="topbar-wrap">
+        <div class="lang-switcher lang-switcher--compact lang-switcher--plain">
+          <a
+            href="/"
+            hreflang="en"
+            lang="en"
+            aria-label="Переключить на английский"
+            >EN</a
+          >
+        </div>
+      </div>
+
+      <div class="layout">
+        <main class="content">
+          <section class="hero pane" id="overview" aria-label="Профиль">
+            <div class="profile-details">
+              <h3>Добро пожаловать на страницу Zenvyd!</h3>
+              <p class="muted">
+                Этот сайт существует просто чтобы ответить на вопросы вроде «<a
+                  href="#about"
+                  >кто ты</a
+                >», «чем увлекаешься» и т.д.
+              </p>
+              <p class="muted">
+                Так что да, это по сути сайт-биография. Также можно посмотреть
+                <a href="#credits">благодарности</a>. Хорошего дня!
+              </p>
+              <img
+                class="profile-picture"
+                src="../img/root/avatar.png"
+                alt="Фото профиля Zenvyd"
+                onerror="this.hidden = true"
+              />
+              <dl class="fact-list">
+                <div>
+                  <dt>Имя</dt>
+                  <dd>Zenvyd</dd>
+                </div>
+                <!--
+                  Приватные поля, отключены по умолчанию. Чтобы показать их,
+                  вынесите нужные строки из комментария и впишите значения:
+                <div>
+                  <dt>Возраст</dt>
+                  <dd>AGE лет</dd>
+                </div>
+                <div>
+                  <dt>День рождения</dt>
+                  <dd>DD.MM</dd>
+                </div>
+                -->
+                <div>
+                  <dt>О себе</dt>
+                  <dd>Просто пользователь NixOS, учусь на вайбкодера.</dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+
+          <section class="pane-grid" id="about" aria-label="Биография">
+            <article class="pane span-all">
+              <h3>Обо мне:</h3>
+              <dl class="fact-list">
+                <div>
+                  <dt>Местоимения</dt>
+                  <dd>он/его</dd>
+                </div>
+                <!--
+                  Приватное поле, отключено по умолчанию. Чтобы показать его,
+                  вынесите его из комментария и впишите значение:
+                <div>
+                  <dt>Ориентация</dt>
+                  <dd>ORIENTATION</dd>
+                </div>
+                -->
+                <div>
+                  <dt>Люб. цвет</dt>
+                  <dd>#ffffff <span class="swatch"></span></dd>
+                </div>
+                <div>
+                  <dt>Люб. исполнитель</dt>
+                  <dd>Madk1d</dd>
+                </div>
+                <div>
+                  <dt>Языки</dt>
+                  <dd>
+                    Английский и русский; раньше немного говорил на испанском,
+                    арабском и казахском.
+                  </dd>
+                </div>
+              </dl>
+
+              <h3 class="subheading">Что мне нравится:</h3>
+              <p class="muted">Вайбкожу свои небольшие проекты на GitHub.</p>
+              <p class="muted">Также интересуюсь играми на ПК и PS5.</p>
+              <h3 class="subheading">Любимые игры:</h3>
+              <ul class="chip-list">
+                <li>
+                  <a
+                    href="https://www.roblox.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Roblox</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://www.playstation.com/ru-ua/ps-plus/?srsltid=AYCX9vJfrZIqcWWB5HIxY8iefV56jX-Yb2LSt9ZhHgLh5_P8R7r24Fbm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Всё, что входит в подписку PlayStation Plus</a
+                  >
+                </li>
+              </ul>
+            </article>
+
+            <article class="pane span-all">
+              <h3>Сетап:</h3>
+              <p class="muted">
+                NixOS 26.11 (unstable-канал) с Niri, потрясающим оконным
+                композитором.
+              </p>
+              <p class="muted">
+                Конфигурация моего ПК:<br />
+                NVIDIA GeForce RTX 4060 (8GB)<br />
+                Intel Core i5-12400F<br />
+                32GB RAM (DDR4)<br />
+              </p>
+            </article>
+
+            <!--
+              Панель last.fm «сейчас играет». Отключена, пока data-lastfm-user
+              пустой; впишите туда свой ник на last.fm, чтобы включить её.
+            -->
+            <article
+              class="pane span-all now-playing-pane"
+              id="music"
+              aria-label="Сейчас слушаю"
+              data-lastfm-user=""
+              hidden
+            >
+              <h3><span class="lastfm">last.fm</span>:</h3>
+              <div class="now-playing-row" aria-live="polite">
+                <a class="now-playing" target="_blank" rel="noopener noreferrer"
+                  >Loading…</a
+                >
+                <img
+                  class="now-playing-cover"
+                  alt=""
+                  width="48"
+                  height="48"
+                  style="display: none"
+                />
+              </div>
+            </article>
+
+            <article class="pane quote-pane" id="quote-pane">
+              <h3>
+                Случайная цитата:
+                <span
+                  class="quote-hint"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Показать другую случайную цитату"
+                  title="Нажми, чтобы показать другую цитату"
+                  >(нажми)</span
+                >
+              </h3>
+              <blockquote>
+                <p id="quote-text">Talk is cheap. Show me the code.</p>
+                <footer>— <cite id="quote-author">Linus Torvalds</cite></footer>
+              </blockquote>
+            </article>
+
+            <article class="pane">
+              <h3>Проекты:</h3>
+              <ul class="chip-list">
+                <li>
+                  <a
+                    href="https://github.com/anoplaymc/anolinux"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >AnoLinux</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/anoplaymc/zenfetch"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >ZenFetch</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/anoplaymc/CHAOS-LAB"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >CHAOS-LAB</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/anoplaymc/gentooinstall"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >gentooinstall</a
+                  >
+                </li>
+              </ul>
+            </article>
+
+            <article class="pane span-all">
+              <h3>Ссылки:</h3>
+              <p class="muted">Как со мной связаться.</p>
+              <ul class="chip-list">
+                <li>
+                  <a
+                    href="https://github.com/anoplaymc"
+                    target="_blank"
+                    rel="noopener noreferrer me"
+                    ><img
+                      class="inline-icon"
+                      src="../img/icons/github.svg"
+                      alt=""
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      loading="lazy"
+                    />github.com/anoplaymc</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://www.roblox.com/users/2400255993/profile/"
+                    target="_blank"
+                    rel="noopener noreferrer me"
+                    ><img
+                      class="inline-icon"
+                      src="../img/icons/roblox.svg"
+                      alt=""
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      loading="lazy"
+                    />roblox.com/users/2400255993</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://t.me/zenvydnew"
+                    target="_blank"
+                    rel="noopener noreferrer me"
+                    ><img
+                      class="inline-icon"
+                      src="../img/icons/telegram.svg"
+                      alt=""
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      loading="lazy"
+                    />t.me/zenvydnew</a
+                  >
+                </li>
+              </ul>
+            </article>
+          </section>
+
+          <section class="pane" id="articles" aria-label="Статьи">
+            <h3>Статьи:</h3>
+            <ul class="chip-list">
+              <li><a href="wayland/">Wayland</a></li>
+              <li><a href="systemd/">Systemd</a></li>
+            </ul>
+          </section>
+        </main>
+      </div>
+
+      <footer class="footer footer-badges">
+        <div class="badge-row" role="group" aria-label="Бейджи">
+          <a href="https://nixos.org">
+            <img
+              src="https://notnite.com/buttons/nixos.png"
+              alt="NixOS"
+              loading="lazy"
+            />
+          </a>
+        </div>
+        <p class="muted" id="credits">
+          Оригинальный дизайн сайта и вдохновение:
+          <a
+            href="https://meltude.me"
+            target="_blank"
+            rel="noopener"
+            >Meltude</a
+          >
+        </p>
+        <p class="muted">
+          <a
+            class="text-link"
+            href="https://codeberg.org/meltude/pages"
+            target="_blank"
+            rel="noopener"
+            >Исходный код оригинала</a
+          >
+          &middot;
+          <a
+            class="text-link"
+            href="https://fonts.google.com/specimen/Balsamiq+Sans"
+            target="_blank"
+            rel="noopener"
+            >Шрифт</a
+          >
+        </p>
+      </footer>
+    </div>
+    <script src="../scripts/quotes.js" defer></script>
+    <script src="../scripts/rain.js" defer></script>
+    <script src="../scripts/lastfm.js" defer></script>
+    <script src="../scripts/progress.js" defer></script>
+  </body>
+</html>

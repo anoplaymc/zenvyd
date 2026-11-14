@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Заметки о systemd: почему он стал стандартной системой инициализации и в чём его основные преимущества перед OpenRC, runit и dinit."
+    />
+    <link rel="icon" type="image/png" href="/img/root/avatar.png" />
+    <title>Systemd</title>
+    <link rel="stylesheet" href="../../style.css" />
+    <link
+      rel="preload"
+      href="../../fonts/balsamiq-sans-regular-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style>
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: var(--text);
+        line-height: 1.2;
+      }
+
+      .page-title {
+        font-size: clamp(1.8rem, 5vw, 2.6rem);
+      }
+
+      .muted strong {
+        color: var(--text);
+      }
+
+      .hero-img {
+        display: block;
+        width: 220px;
+        max-width: 100%;
+        height: auto;
+        margin: 0 0 0.9rem;
+        padding: 0.5rem 0.7rem;
+        border-radius: 4px;
+        background: #f2f2f2;
+      }
+
+      .code-block {
+        width: 100%;
+        margin: 0.8rem 0 0;
+        padding: 0.8rem 1rem;
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface-raised);
+        color: var(--text);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="rain" aria-hidden="true"></canvas>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="page-shell">
+      <div class="topbar-wrap">
+        <div class="lang-switcher lang-switcher--plain">
+          <a
+            href="/systemd/"
+            hreflang="en"
+            lang="en"
+            aria-label="Переключить на английский"
+            >en</a
+          >
+        </div>
+      </div>
+
+      <div class="layout">
+        <main class="content">
+          <section class="hero pane" aria-label="Что такое systemd">
+            <img
+              class="hero-img"
+              src="../../img/assets/systemd.webp"
+              alt="Логотип systemd"
+            />
+            <h1 class="page-title">Systemd</h1>
+            <p class="muted">
+              Выбор системы инициализации обычно сводится к балансу между
+              производительностью, сложностью и богатством возможностей.
+            </p>
+            <p class="muted">
+              Хотя альтернативы вроде OpenRC, runit и dinit делают ставку на
+              минимализм и простоту, systemd стал отраслевым стандартом для
+              основных Linux-дистрибутивов благодаря комплексному подходу и
+              широкому набору возможностей.
+            </p>
+            <p class="muted">
+              Итак, вот преимущества нашего замечательного systemd:
+            </p>
+          </section>
+
+          <section class="pane-grid" aria-label="Преимущества systemd">
+            <article class="pane">
+              <h3>1. Продвинутое отслеживание процессов через cgroups</h3>
+              <p class="muted">
+                Одно из главных достижений systemd&nbsp;&mdash; нативная
+                интеграция с контрольными группами Linux (cgroups).
+              </p>
+              <p class="muted">
+                Когда служба запускается, systemd отслеживает каждый порождённый
+                ею процесс, независимо от того, сколько дочерних процессов или
+                демонов создаётся.
+              </p>
+              <p class="muted">
+                Традиционные системы инициализации (например, OpenRC или runit)
+                часто полагаются на PID-файлы для отслеживания служб, что может
+                не сработать, если демон неправильно форкается или отвязывается.
+              </p>
+              <p class="muted">
+                В systemd при остановке или перезапуске службы гарантируется, что
+                все связанные процессы будут завершены, что предотвращает
+                появление «осиротевших» фоновых задач и утечек памяти.
+              </p>
+            </article>
+
+            <article class="pane">
+              <h3>2. Параллелизация и сокет-активация</h3>
+              <p class="muted">
+                Скорость и эффективность загрузки&nbsp;&mdash; важные сильные
+                стороны архитектуры systemd.
+              </p>
+              <p class="muted">
+                Systemd может создавать слушающие сетевые сокеты ещё до запуска
+                самих служб. Если запрос приходит раньше, чем служба полностью
+                запустилась, systemd ставит соединение в очередь и запускает
+                демон по требованию.
+              </p>
+              <p class="muted">
+                Хотя runit и dinit тоже очень быстрые благодаря лёгкому дизайну,
+                способность systemd распараллеливать запуск служб с помощью
+                сложных графов зависимостей и сокет-активации часто даёт более
+                быстрое или более оптимальное время загрузки в сложных
+                современных десктопных и серверных окружениях.
+              </p>
+            </article>
+
+            <article class="pane">
+              <h3>3. Встроенная песочница безопасности</h3>
+              <p class="muted">
+                Systemd предоставляет мощные декларативные средства безопасности
+                прямо в конфигурационных файлах служб, не требуя внешних
+                инструментов вроде AppArmor или SELinux для базовой изоляции.
+              </p>
+              <p class="muted">
+                Вы можете легко ограничить доступ службы к системе с помощью
+                таких директив:
+              </p>
+              <pre class="code-block"><code>ProtectSystem=full
+PrivateTmp=true
+NoNewPrivileges=yes
+CapabilityBoundingSet=</code></pre>
+              <p class="muted">
+                OpenRC, runit и dinit, как правило, не имеют встроенной «из
+                коробки» песочницы для приложений, поэтому администраторам
+                приходится настраивать внешние обёртки или инструменты
+                контейнеризации, чтобы добиться такого же уровня изоляции.
+              </p>
+            </article>
+
+            <article class="pane">
+              <h3>4. Единая экосистема и инструменты</h3>
+              <p class="muted">
+                Systemd&nbsp;&mdash; это больше, чем просто система инициализации;
+                это комплексный набор утилит для управления системой.
+              </p>
+              <p class="muted">
+                <strong>Единые компоненты:</strong> он включает интегрированные
+                инструменты для логирования (journald), управления сетью
+                (systemd-networkd / resolved), управления входом (logind) и
+                синхронизации времени (timesyncd).
+              </p>
+              <p class="muted">
+                Минималистичные системы инициализации следуют философии «делай
+                одну вещь и делай её хорошо», а значит, для логирования
+                (например, syslog-ng), cron и сети приходится собирать вместе
+                отдельные сторонние инструменты.
+              </p>
+              <p class="muted">
+                Systemd обеспечивает единообразный стандартизированный синтаксис
+                конфигурации (.service-файлы) во всех этих областях.
+              </p>
+            </article>
+
+            <article class="pane span-all">
+              <h3>5. Стандартизация и поддержка экосистемы</h3>
+              <p class="muted">
+                Поскольку systemd используется почти во всех крупных
+                Linux-дистрибутивах (Ubuntu, Debian, Fedora, Red Hat, Arch
+                Linux), он пользуется огромной поддержкой сообщества. Большинство
+                современных программ поставляются с нативными systemd-юнитами из
+                коробки.
+              </p>
+              <p class="muted">
+                При использовании runit, OpenRC или dinit часто приходится писать
+                собственные init-скрипты или слои совместимости, чтобы запускать
+                программы, которые рассчитывают на окружение systemd.
+              </p>
+            </article>
+          </section>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <a class="text-link" href="/">&larr; назад на главную</a>
+      </footer>
+    </div>
+    <script src="../../scripts/rain.js" defer></script>
+    <script src="../../scripts/progress.js" defer></script>
+  </body>
+</html>
